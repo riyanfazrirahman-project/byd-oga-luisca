@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/byd-com-brandmark.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Konsultasi mobil BYD bersama Oga Luisca. Situs personal sales, bukan situs resmi BYD." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Oga Luisca — Konsultan Mobil BYD" />
+  <meta property="og:description" content="Dapatkan informasi model BYD dan konsultasi langsung bersama Oga Luisca." />
+  <meta name="theme-color" content="#f7f9fc" />
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("theme");
+      const darkMode = savedTheme
+        ? savedTheme === "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.classList.toggle("dark", darkMode);
+      document.documentElement.style.colorScheme = darkMode ? "dark" : "light";
+      document.querySelector('meta[name="theme-color"]').content = darkMode
+        ? "#0b1220"
+        : "#f7f9fc";
+    } catch (error) {
+      console.error("Preferensi tema awal tidak dapat diterapkan.", error);
+    }
+  </script>
+  <title>Oga Luisca — Konsultan Mobil BYD</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

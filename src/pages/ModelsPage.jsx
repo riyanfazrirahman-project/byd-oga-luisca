@@ -29,10 +29,7 @@ export default function ModelsPage() {
 
   return (
     <>
-      <Seo
-        title="Model BYD"
-        description="Jelajahi model BYD dan dapatkan informasi langsung dari Oga Luisca."
-      />
+      <Seo page="models" />
       <section className="page-intro">
         <div className="container">
           <span className="eyebrow">Temukan kendaraan yang sesuai</span>

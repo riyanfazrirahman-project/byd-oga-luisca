@@ -21,15 +21,25 @@ export default function SimulationPage() {
   const variant = sortedVariants.find((item) => item.id === variantId) ?? sortedVariants[0];
   const [dpAmount, setDpAmount] = useState("");
   const [tenor, setTenor] = useState(SITE.simulation.tenors.includes(36) ? 36 : SITE.simulation.tenors[0]);
+  const [interestPercent, setInterestPercent] = useState(
+    SITE.simulation.defaultInterestPercent > 0
+      ? String(SITE.simulation.defaultInterestPercent)
+      : "",
+  );
   const price = variant?.price || model?.priceFrom || 0;
   const minDp = Math.round((price * SITE.simulation.minDpPercent) / 100);
   const maxDp = Math.round(price * 0.7);
   const currentDp = Math.min(maxDp, Math.max(minDp, Number(dpAmount) || minDp));
   const dpPercent = price ? Math.min(70, Math.max(SITE.simulation.minDpPercent, (currentDp / price) * 100)) : SITE.simulation.minDpPercent;
-  const estimate = price
-    ? calculateInstallment(price, dpPercent, tenor, SITE.simulation.defaultInterestPercent)
+  const annualInterestPercent = interestPercent === "" ? null : Number(interestPercent);
+  const hasValidInterest = Number.isFinite(annualInterestPercent) && annualInterestPercent >= 0;
+  const estimate = price && hasValidInterest
+    ? calculateInstallment(price, dpPercent, tenor, annualInterestPercent)
     : null;
-  const simulationMessage = `Sebagai gambaran, saya ingin membahas simulasi ${model?.name ?? ""} ${variant?.name ?? ""}, DP ${formatRupiah(currentDp)}, tenor ${tenor} bulan.`;
+  const interestSummary = !hasValidInterest
+    ? "bunga leasing belum ditentukan"
+    : `bunga ${interestPercent}% per tahun`;
+  const simulationMessage = `Sebagai gambaran, saya ingin membahas simulasi ${model?.name ?? ""} ${variant?.name ?? ""}, DP ${formatRupiah(currentDp)}, ${interestSummary}, tenor ${tenor} bulan.`;
 
   function changeModel(slug) {
     setModelSlug(slug);
@@ -48,7 +58,7 @@ export default function SimulationPage() {
 
   return (
     <>
-      <Seo title="Simulasi Cicilan" description="Buat perkiraan cicilan mobil BYD dan diskusikan hasilnya bersama Oga." />
+      <Seo page="simulation" />
       <section className="page-intro">
         <div className="container">
           <span className="eyebrow">Rencanakan dengan tenang</span>
@@ -93,8 +103,22 @@ export default function SimulationPage() {
                     <div className="range-labels"><span>Minimal {SITE.simulation.minDpPercent}%</span><span>Maksimal 70%</span></div>
                   </div>
                 )}
+                <div className="simulation-step">
+                  <label htmlFor="interest-percent"><span>04</span> Bunga leasing (% per tahun)</label>
+                  <input
+                    className="interest-rate-input"
+                    id="interest-percent"
+                    type="number"
+                    inputMode="decimal"
+                    min="0"
+                    step="0.1"
+                    placeholder="Masukkan bunga leasing"
+                    value={interestPercent}
+                    onChange={(event) => setInterestPercent(event.target.value)}
+                  />
+                </div>
                 <fieldset className="simulation-step tenor-step">
-                  <legend><span>04</span> Pilih tenor</legend>
+                  <legend><span>05</span> Pilih tenor</legend>
                   <div className="tenor-options">
                     {SITE.simulation.tenors.map((months) => (
                       <button key={months} type="button" className={tenor === months ? "selected" : ""} aria-pressed={tenor === months} onClick={() => setTenor(months)}>
@@ -106,12 +130,12 @@ export default function SimulationPage() {
               </form>
               <aside className="simulation-result" aria-live="polite">
                 <div className="result-topline"><span><Calculator size={17} /> Estimasi Anda</span><span className="estimate-label">Perkiraan</span></div>
-                <div className="monthly-estimate"><span>Perkiraan cicilan</span><strong>{estimate ? formatRupiah(estimate.monthlyPayment) : "Pilih varian"}</strong><small>per bulan · {tenor} bulan</small></div>
+                <div className="monthly-estimate"><span>Perkiraan cicilan</span><strong>{estimate ? formatRupiah(estimate.monthlyPayment) : hasValidInterest ? "Pilih varian" : "Masukkan bunga"}</strong><small>per bulan · {tenor} bulan</small></div>
                 <div className="result-breakdown">
                   <div><span>Harga kendaraan</span><strong>{formatRupiah(price)}</strong></div>
                   <div><span>Uang muka</span><strong>{formatRupiah(estimate?.downPayment ?? 0)}</strong></div>
                   <div><span>Pokok pinjaman</span><strong>{formatRupiah(estimate?.principal ?? 0)}</strong></div>
-                  <div><span>Bunga asumsi</span><strong>{SITE.simulation.defaultInterestPercent}% per tahun</strong></div>
+                  <div><span>Bunga leasing</span><strong>{hasValidInterest ? `${interestPercent}% per tahun` : "Belum diisi"}</strong></div>
                 </div>
                 <WhatsAppButton
                   source="simulation-result"

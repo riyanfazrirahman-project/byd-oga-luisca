@@ -4,6 +4,40 @@ export const SITE = {
   meta: {
     name: "Oga Luisca",
     tagline: "Sales Marketing",
+    title: "Oga Luisca | Konsultasi Mobil BYD Palangka Raya",
+    description:
+      "Temukan informasi model dan harga mobil BYD di Palangka Raya. Konsultasi langsung dengan Oga Luisca, Sales Consultant BYD Arista.",
+    keywords:
+      "BYD Palangka Raya, mobil BYD, harga BYD Palangka Raya, Oga Luisca, BYD Arista",
+    socialImage: "image.png",
+    socialImageAlt: "Oga Luisca, Sales Consultant BYD Arista Palangka Raya",
+    modelImageAltTemplate: "Mobil {model} | BYD Palangka Raya",
+    pages: {
+      models: {
+        title: "Model BYD Palangka Raya | Oga Luisca",
+        description:
+          "Jelajahi katalog model BYD dan informasi harga OTR Palangka Raya. Tanyakan varian, ketersediaan, dan promo terbaru kepada Oga Luisca.",
+      },
+      simulation: {
+        title: "Simulasi Cicilan Mobil BYD | Oga Luisca",
+        description:
+          "Hitung estimasi awal cicilan mobil BYD berdasarkan harga, uang muka, dan tenor. Konsultasikan kembali hasilnya dengan Oga Luisca.",
+      },
+      contact: {
+        title: "Hubungi Oga Luisca | Sales BYD Palangka Raya",
+        description:
+          "Hubungi Oga Luisca, Sales Consultant BYD Arista Palangka Raya, untuk konsultasi model, harga, promo, dan ketersediaan BYD.",
+      },
+      model: {
+        titleTemplate: "{model} | Harga dan Informasi BYD Palangka Raya",
+        descriptionTemplate:
+          "Lihat informasi {model} di Palangka Raya dan tanyakan harga, varian, serta ketersediaan terbaru kepada Oga Luisca.",
+      },
+      notFound: {
+        title: "Halaman tidak ditemukan | Oga Luisca",
+        description: "Halaman yang Anda cari tidak tersedia.",
+      },
+    },
     url: "[URL situs]",
     lang: "id",
     disclaimer:
@@ -20,6 +54,31 @@ export const SITE = {
   brandAssets: {
     bydLogo: "byd-com-brandmark.svg",
     aristaLogo: "Logo ARISTA white-(1).png",
+  },
+  modelBenefits: {
+    tagline: "Lebih nyaman & hemat untuk keluarga Indonesia.",
+    note: "Klaim mengikuti materi promosi dealer; konfirmasi syarat dan ketentuan kepada Oga.",
+    specificationNote:
+      "Angka jarak mengikuti poster dealer; konfirmasi detail varian dan metode pengukurannya kepada Oga.",
+    items: [
+      {
+        id: "battery",
+        title: "Battery Safety",
+        description: "Blade Battery: super aman dan tahan lama.",
+      },
+      {
+        id: "warranty",
+        title: "Garansi lengkap",
+        description:
+          "Garansi baterai hingga 8 tahun / 160.000 km dan kendaraan hingga 8 tahun / 150.000 km.",
+      },
+      {
+        id: "comfort",
+        title: "Nyaman & hemat",
+        description:
+          "Beralih ke BYD untuk pengalaman berkendara yang terasa lebih nyaman dan hemat.",
+      },
+    ],
   },
   homeFaqs: {
     title: "Pertanyaan yang sering ditanyakan",
@@ -65,7 +124,7 @@ export const SITE = {
     services: [],
     testimonials: [],
     contact: {
-      whatsapp: "+6282254014001",
+      whatsapp: "6282254014001",
       phone: "[Nomor telepon]",
       email: "[Alamat email]",
       instagram: "[Akun Instagram]",
@@ -96,15 +155,15 @@ export const SITE = {
       images: {
         folder: "byd-atto1",
         hero: "atto1-1.jpeg",
-        card: "atto1-1.jpeg",
+        card: "atto1-1 card.jpeg",
         gallery: ["atto1-2.jpeg"],
         colors: [],
       },
       highlights: [],
       variants: [
         { id: "standard", name: "Standard", price: 223000000, specs: {} },
-        { id: "dynamic", name: "Dynamic", price: 236000000, specs: {} },
-        { id: "premium", name: "Premium", price: 271000000, specs: {} },
+        { id: "dynamic", name: "Dynamic", price: 236000000, specs: { rangeKm: 300, rangeQualifier: "±", rangeStandard: "NEDC" } },
+        { id: "premium", name: "Premium", price: 271000000, specs: { rangeKm: 380, rangeQualifier: "±", rangeStandard: "NEDC" } },
       ],
     },
     {
@@ -118,13 +177,13 @@ export const SITE = {
       images: {
         folder: "byd-atto3",
         hero: "atto3-1.jpeg",
-        card: "atto3-1.jpeg",
+        card: "atto3-1 card.jpeg",
         gallery: ["atto3-2.jpeg"],
         colors: [],
       },
       highlights: [],
       variants: [
-        { id: "advanced-plus", name: "Advanced +", price: 445000000, specs: {} },
+        { id: "advanced-plus", name: "Advanced +", price: 445000000, specs: { rangeKm: 410, rangeQualifier: "±", rangeStandard: "NEDC" } },
       ],
     },
     {
@@ -138,15 +197,15 @@ export const SITE = {
       images: {
         folder: "byd-m6",
         hero: "m6-1.jpeg",
-        card: "m6-1.jpeg",
+        card: "m6-1 card.jpeg",
         gallery: ["m6-2.jpeg"],
         colors: [],
       },
       highlights: [],
       variants: [
-        { id: "standard", name: "Standard", price: 418000000, specs: {} },
-        { id: "7s-superior", name: "7S Superior", price: 458000000, specs: {} },
-        { id: "6s-superior-captain", name: "6S Superior Captain", price: 468000000, specs: {} },
+        { id: "standard", name: "Standard", price: 418000000, specs: { rangeKm: 420, rangeQualifier: "±", rangeStandard: "NEDC" } },
+        { id: "7s-superior", name: "7S Superior", price: 458000000, specs: { rangeKm: 530, rangeQualifier: "±", rangeStandard: "NEDC" } },
+        { id: "6s-superior-captain", name: "6S Superior Captain", price: 468000000, specs: { rangeKm: 530, rangeQualifier: "±", rangeStandard: "NEDC" } },
       ],
     },
     {
@@ -160,17 +219,17 @@ export const SITE = {
       images: {
         folder: "byd-m6-dm",
         hero: "m6dm-1.jpeg",
-        card: "m6dm-1.jpeg",
+        card: "m6dm-1 card.jpeg",
         gallery: ["m6dm-2.jpeg"],
         colors: [],
       },
       highlights: ["Poster dealer mencantumkan konsumsi bensin 65 km/L."],
       variants: [
-        { id: "classic-standard", name: "Classic Standard", price: 320600000, specs: {} },
-        { id: "classic-dynamic", name: "Classic Dynamic", price: 340600000, specs: {} },
-        { id: "cross-advance", name: "Cross Advance", price: 382600000, specs: {} },
-        { id: "cross-superior", name: "Cross Superior", price: 402600000, specs: {} },
-        { id: "cross-superior-capt", name: "Cross Superior Capt", price: 412600000, specs: {} },
+        { id: "classic-standard", name: "Classic Standard", price: 320600000, specs: { rangeKm: 1000, rangeQualifier: ">", rangeNote: "Gabungan BBM & listrik" } },
+        { id: "classic-dynamic", name: "Classic Dynamic", price: 340600000, specs: { rangeKm: 1000, rangeQualifier: ">", rangeNote: "Gabungan BBM & listrik" } },
+        { id: "cross-advance", name: "Cross Advance", price: 382600000, specs: { rangeKm: 1000, rangeQualifier: ">", rangeNote: "Gabungan BBM & listrik" } },
+        { id: "cross-superior", name: "Cross Superior", price: 402600000, specs: { rangeKm: 1000, rangeQualifier: ">", rangeNote: "Gabungan BBM & listrik" } },
+        { id: "cross-superior-capt", name: "Cross Superior Capt", price: 412600000, specs: { rangeKm: 1000, rangeQualifier: ">", rangeNote: "Gabungan BBM & listrik" } },
       ],
     },
     {
@@ -184,14 +243,14 @@ export const SITE = {
       images: {
         folder: "byd-sealion",
         hero: "sealion-1.jpeg",
-        card: "sealion-1.jpeg",
+        card: "sealion-1 card.jpeg",
         gallery: ["sealion-2.jpeg"],
         colors: [],
       },
       highlights: [],
       variants: [
-        { id: "premium", name: "Premium", price: 653500000, specs: {} },
-        { id: "performance", name: "Performance", price: 764500000, specs: {} },
+        { id: "premium", name: "Premium", price: 653500000, specs: { rangeKm: 650, rangeQualifier: "±", rangeStandard: "NEDC" } },
+        { id: "performance", name: "Performance", price: 764500000, specs: { rangeKm: 580, rangeQualifier: "±", rangeStandard: "NEDC" } },
       ],
     },
     {
@@ -205,14 +264,14 @@ export const SITE = {
       images: {
         folder: "byd-sealion7",
         hero: "sealion7-1.jpeg",
-        card: "sealion7-1.jpeg",
+        card: "sealion7-1 card.jpeg",
         gallery: ["sealion7-2.jpeg"],
         colors: [],
       },
       highlights: [],
       variants: [
-        { id: "premium", name: "Premium", price: 641500000, specs: {} },
-        { id: "performance", name: "Performance", price: 731500000, specs: {} },
+        { id: "premium", name: "Premium", price: 641500000, specs: { rangeKm: 567, rangeQualifier: "±", rangeStandard: "NEDC" } },
+        { id: "performance", name: "Performance", price: 731500000, specs: { rangeKm: 542, rangeQualifier: "±", rangeStandard: "NEDC" } },
         { id: "extended", name: "Extended", price: 900000000, specs: {} },
       ],
     },
@@ -226,14 +285,14 @@ export const SITE = {
       priceFrom: 1129000000,
       images: {
         folder: "d9",
-        hero: "Danza D9 New 2026-1.jpeg",
-        card: "Danza D9 New 2026-1.jpeg",
-        gallery: ["Danza D9 New 2026-2.jpeg"],
+        hero: "Danza D9 New 2026-2.jpeg",
+        card: "Danza D9 New 2026-2 card.jpeg",
+        gallery: ["Danza D9 New 2026-1.jpeg"],
         colors: [],
       },
       highlights: [],
       variants: [
-        { id: "otr-2026", name: "OTR 2026", price: 1129000000, specs: {} },
+        { id: "otr-2026", name: "OTR 2026", price: 1129000000, specs: { rangeKm: 600, rangeStandard: "NEDC" } },
       ],
     },
   ],

@@ -32,6 +32,11 @@
   --ring: #557fc6;
   --brand: #315b98;
   --brand-soft: #e7eef8;
+  --benefits-surface: #0b1220;
+  --benefits-foreground: #f4f7fb;
+  --benefits-card: #17243a;
+  --benefits-border: #34445c;
+  --benefits-muted: #b7c3d6;
   --wa: #315b98;
   --wa-foreground: #ffffff;
   --promo: #9a5200;
@@ -67,6 +72,11 @@
   --ring: #8ab4ff;
   --brand: #8ab4ff;
   --brand-soft: #1c3154;
+  --benefits-surface: #111b2d;
+  --benefits-foreground: #e8eef8;
+  --benefits-card: #192a45;
+  --benefits-border: #354966;
+  --benefits-muted: #b2bfd4;
   --wa: #cbd5e1;
   --wa-foreground: #14213a;
   --promo: #f2bf75;
@@ -525,7 +535,7 @@ img {
 .hero-portrait-wrap {
   position: relative;
   width: min(100%, 475px);
-  height: 500px;
+  aspect-ratio: 4 / 5;
   justify-self: end;
 }
 
@@ -540,7 +550,7 @@ img {
 
 .hero-portrait {
   position: absolute;
-  inset: 3% 7% 0 8%;
+  inset: 0;
   overflow: hidden;
   border-radius: 48% 48% 18px 18px;
   background: linear-gradient(150deg, var(--surface-soft), var(--surface-subtle));
@@ -781,7 +791,8 @@ img {
 .model-image>img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center bottom;
   transition: transform 200ms ease;
 }
 
@@ -1859,6 +1870,15 @@ img {
   gap: 7px;
 }
 
+.badge-range {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-color: color-mix(in srgb, var(--brand) 24%, var(--border));
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
 .detail-purchase h1 {
   margin: 14px 0 0;
   font-family: var(--font-heading);
@@ -2142,12 +2162,144 @@ img {
   color: var(--brand);
 }
 
+.model-summary-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 21px;
+}
+
+.model-summary-badge {
+  display: flex;
+  min-width: 190px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+}
+
+.model-summary-badge>svg {
+  flex: 0 0 auto;
+  color: var(--brand);
+}
+
+.model-summary-badge>span {
+  display: grid;
+  gap: 3px;
+}
+
+.model-summary-badge small {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.model-summary-badge strong {
+  font-size: 14px;
+}
+
+.model-benefits {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.8fr) minmax(0, 1.8fr);
+  gap: 28px;
+  margin-top: 20px;
+  padding: clamp(20px, 3vw, 32px);
+  border-radius: 18px;
+  background: var(--benefits-surface);
+  color: var(--benefits-foreground);
+}
+
+.model-benefits-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+
+.model-brand-logos {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 15px;
+}
+
+.model-brand-logos img {
+  width: auto;
+  max-width: 110px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.model-brand-logos span {
+  width: 1px;
+  height: 26px;
+  background: color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.model-benefits-heading>p {
+  max-width: 230px;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(17px, 2vw, 21px);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.model-benefit-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.model-benefit-item {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 150px;
+  padding: 17px;
+  border: 1px solid var(--benefits-border);
+  border-radius: 13px;
+  background: var(--benefits-card);
+}
+
+.model-benefit-item>svg {
+  flex: 0 0 auto;
+  color: var(--brand);
+}
+
+.model-benefit-item h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.model-benefit-item p {
+  margin: 6px 0 0;
+  color: var(--benefits-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.model-benefits-note {
+  grid-column: 2;
+  margin: -16px 0 0;
+  color: var(--benefits-muted);
+  font-size: 11px;
+}
+
 .spec-table-wrap {
   max-width: 100%;
   overflow-x: auto;
   margin-top: 18px;
   border: 1px solid var(--border);
   border-radius: 12px;
+}
+
+.specification-note {
+  margin: 11px 2px 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
 }
 
 .spec-table {
@@ -2216,7 +2368,7 @@ img {
 
 .contact-portrait {
   position: relative;
-  width: min(100%, 390px);
+  width: min(100%, 475px);
   aspect-ratio: 4 / 5;
   justify-self: center;
   overflow: hidden;
@@ -2586,6 +2738,16 @@ img {
   color: var(--foreground);
 }
 
+.interest-rate-input {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 14px;
+  border: 1px solid var(--input);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--foreground);
+}
+
 .dp-input-row {
   display: flex;
   align-items: center;
@@ -2890,7 +3052,7 @@ img {
   }
 
   .hero-portrait-wrap {
-    height: 420px;
+    width: min(100%, 475px);
   }
 
   .hero-copy h1 {
@@ -2920,8 +3082,7 @@ img {
 
   .hero-portrait-wrap {
     order: -1;
-    width: min(100%, 410px);
-    height: 410px;
+    width: min(100%, 475px);
     justify-self: center;
   }
 
@@ -3001,7 +3162,7 @@ img {
   }
 
   .contact-portrait {
-    width: min(100%, 360px);
+    width: min(100%, 475px);
     justify-self: center;
   }
 }
@@ -3067,14 +3228,11 @@ img {
 
   .hero-portrait-wrap {
     order: -1;
-    width: min(100%, 420px);
-    height: min(84vw, 360px);
-    min-height: 270px;
+    width: min(100%, 475px);
     align-self: center;
   }
 
   .hero-portrait {
-    inset: 0 9% 0;
     border-radius: 46% 46% 16px 16px;
   }
 
@@ -3505,6 +3663,51 @@ img {
     font-size: 14px;
   }
 
+  .model-benefits {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    border-radius: 14px;
+  }
+
+  .model-benefits-heading {
+    align-items: center;
+    text-align: center;
+  }
+
+  .model-benefits-heading>p {
+    max-width: 320px;
+  }
+
+  .model-benefit-list {
+    grid-template-columns: 1fr;
+  }
+
+  .model-benefit-item {
+    min-height: 0;
+    flex-direction: row;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .model-benefit-item>svg {
+    margin-top: 2px;
+  }
+
+  .model-benefits-note {
+    grid-column: 1;
+    margin: -8px 0 0;
+    text-align: center;
+  }
+
+  .model-summary-badges {
+    gap: 8px;
+  }
+
+  .model-summary-badge {
+    min-width: min(100%, 170px);
+    padding: 12px;
+  }
+
   .spec-table {
     min-width: 430px;
     font-size: 12px;
@@ -3580,8 +3783,8 @@ img {
   }
 
   .contact-portrait {
-    width: min(76%, 320px);
-    justify-self: start;
+    width: min(100%, 475px);
+    justify-self: center;
   }
 
   .contact-intro h1 {

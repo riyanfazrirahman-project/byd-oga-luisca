@@ -1,6 +1,12 @@
 export function calculateInstallment(price, dpPercent, tenorMonths, annualInterestPercent) {
   if (![price, dpPercent, tenorMonths, annualInterestPercent].every(Number.isFinite)) return null;
-  if (price <= 0 || tenorMonths <= 0 || dpPercent < 0 || dpPercent >= 100) return null;
+  if (
+    price <= 0 ||
+    tenorMonths <= 0 ||
+    dpPercent < 0 ||
+    dpPercent >= 100 ||
+    annualInterestPercent < 0
+  ) return null;
 
   const downPayment = Math.round((price * dpPercent) / 100);
   const principal = price - downPayment;

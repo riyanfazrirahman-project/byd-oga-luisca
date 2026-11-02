@@ -103,7 +103,7 @@ Field pada setiap varian:
 | `id` | string | Unik dalam satu model, misal `premium` |
 | `name` | string | Nama varian |
 | `price` | number | Harga OTR, angka mentah |
-| `specs` | object | `batteryKwh`, `rangeKm`, `powerHp`, `seats`, `drive`, dan lainnya; hanya field yang diisi yang ditampilkan |
+| `specs` | object | `batteryKwh`, `rangeKm`, `rangeQualifier`, `rangeStandard`, `rangeNote`, `powerHp`, `seats`, `drive`, dan lainnya; hanya field yang diisi yang ditampilkan |
 
 Contoh satu entri (nilai angka hanya contoh format, bukan data resmi):
 
@@ -155,6 +155,13 @@ export const SITE = {
   meta: {
     name: "Oga Luisca – Sales BYD",
     tagline: "Konsultan mobil listrik BYD Anda",
+    title: "Judul SEO utama",
+    description: "Deskripsi SEO utama",
+    keywords: "kata kunci relevan",
+    socialImage: "image.png",
+    socialImageAlt: "Deskripsi gambar sosial",
+    modelImageAltTemplate: "Deskripsi gambar {model}",
+    pages: { models, simulation, contact, model, notFound },
     url: "https://contoh-domain.com",
     lang: "id",
     disclaimer: "Situs ini dikelola oleh Oga Luisca, sales BYD di [Nama Dealer]. Bukan situs resmi BYD."
@@ -168,6 +175,14 @@ export const SITE = {
     models: `${BASE}/assets/img/models`,
     icons: `${BASE}/assets/icons`,
     docs: `${BASE}/assets/docs`
+  },
+
+  brandAssets: { bydLogo, aristaLogo },
+  modelBenefits: {
+    tagline,
+    note,
+    specificationNote,
+    items: [{ id, title, description }]
   },
 
   // Rute aplikasi (React Router), bukan file HTML
@@ -393,9 +408,9 @@ Situs harus terasa seperti milik Oga: wajah dan namanya tampil di setiap halaman
 
 | Area | Kebutuhan | Prioritas |
 | --- | --- | --- |
-| Meta statis | `index.html` berisi `<title>`, deskripsi, dan Open Graph default, agar tetap ada meski JavaScript tidak berjalan | P0 |
-| Meta per halaman | Komponen `Seo` merender `<title>`, deskripsi, dan gambar OG dari data model atau halaman | P0 |
-| Data terstruktur | JSON-LD `Person` untuk Oga dan `Product` atau `Vehicle` per model | P1 |
+| Meta statis | `index.html` berisi title, deskripsi, author, robots, Open Graph, Twitter Card, dan gambar sosial default agar tetap ada meski JavaScript tidak berjalan | P0 |
+| Meta per halaman | Komponen `Seo` merender title, deskripsi, canonical, robots, Open Graph, Twitter Card, serta gambar sosial dari konfigurasi atau model | P0 |
+| Data terstruktur | JSON-LD `WebSite` dan `Person` untuk situs/Oga, serta `Product` per model | P1 |
 | Sitemap dan robots | `generate-sitemap.mjs` membuat `sitemap.xml` dari `SITE.models` (URL `/model/<slug>`) | P1 |
 | Prarender | HTML statis per rute agar terbaca mesin pencari tanpa JavaScript (pustaka SSG untuk Vite atau skrip sendiri) | P2 |
 | Code splitting | Setiap halaman dimuat dengan `React.lazy` | P1 |

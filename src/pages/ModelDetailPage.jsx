@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
+  BatteryCharging,
+  BadgeCheck,
   CarFront,
   Check,
   ChevronLeft,
   ChevronRight,
-  CircleHelp,
   MapPin,
   Maximize2,
+  Leaf,
+  ShieldCheck,
   UserRound,
   X,
 } from "lucide-react";
@@ -20,7 +23,7 @@ import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import NotFoundPage from "@/pages/NotFoundPage";
 import { SITE } from "@/data/site.config";
 import { trackEvent } from "@/lib/analytics";
-import { formatDate, formatRupiah } from "@/lib/format";
+import { formatDate, formatNumber, formatRupiah } from "@/lib/format";
 import { asset, modelAsset, routePath } from "@/lib/paths";
 
 export default function ModelDetailPage() {
@@ -71,7 +74,9 @@ export default function ModelDetailPage() {
       if (event.key === "ArrowLeft") {
         event.preventDefault();
         setImageFailed(false);
-        setImageIndex((current) => (current - 1 + images.length) % images.length);
+        setImageIndex(
+          (current) => (current - 1 + images.length) % images.length,
+        );
       }
       if (event.key === "ArrowRight") {
         event.preventDefault();
@@ -84,7 +89,8 @@ export default function ModelDetailPage() {
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handlePreviewKeyDown);
-      if (previewTriggerRef.current?.isConnected) previewTriggerRef.current.focus();
+      if (previewTriggerRef.current?.isConnected)
+        previewTriggerRef.current.focus();
     };
   }, [images.length, previewOpen]);
 
@@ -97,6 +103,12 @@ export default function ModelDetailPage() {
         item.slug !== model.slug && (item.type === model.type || item.featured),
     )
     .slice(0, 3);
+  const selectedRange = selectedVariant?.specs?.rangeKm;
+  const benefitIcons = {
+    battery: BatteryCharging,
+    warranty: ShieldCheck,
+    comfort: Leaf,
+  };
 
   function selectColor(image) {
     const index = images.indexOf(image);
@@ -118,9 +130,11 @@ export default function ModelDetailPage() {
   return (
     <>
       <Seo
-        title={model.seo?.title || model.name}
-        description={model.seo?.description || model.tagline}
         image={modelAsset(model, model.images.hero)}
+        imageAlt={SITE.meta.modelImageAltTemplate.replaceAll(
+          "{model}",
+          model.name,
+        )}
         model={model}
       />
       <div className="container">
@@ -152,7 +166,9 @@ export default function ModelDetailPage() {
                     fetchPriority="high"
                     onError={() => setImageFailed(true)}
                   />
-                  <span className="gallery-zoom-hint"><Maximize2 size={16} /> Perbesar</span>
+                  <span className="gallery-zoom-hint">
+                    <Maximize2 size={16} /> Perbesar
+                  </span>
                 </button>
               ) : (
                 <div className="gallery-placeholder">
@@ -211,6 +227,19 @@ export default function ModelDetailPage() {
           <div className="detail-purchase">
             <div className="detail-title-row">
               <span className="badge badge-type">{model.type}</span>
+              {selectedRange > 0 && (
+                <span className="badge badge-range">
+                  <BatteryCharging size={15} aria-hidden="true" />
+                  Jarak tempuh {selectedVariant.specs.rangeQualifier || ""}
+                  {formatNumber(selectedRange)} km
+                  {selectedVariant.specs.rangeStandard
+                    ? ` (${selectedVariant.specs.rangeStandard})`
+                    : ""}
+                  {selectedVariant.specs.rangeNote
+                    ? ` (${selectedVariant.specs.rangeNote})`
+                    : ""}
+                </span>
+              )}
               {model.status === "coming-soon" && (
                 <span className="badge">Informasi menyusul</span>
               )}
@@ -368,18 +397,45 @@ export default function ModelDetailPage() {
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <p className="empty-note">
-                  <CircleHelp size={17} />
-                  Informasi keunggulan belum ditambahkan.
-                </p>
-              )}
+              ) : null}
+              <div className="model-summary-badges">
+                {selectedRange > 0 && (
+                  <div className="model-summary-badge">
+                    <BatteryCharging size={20} aria-hidden="true" />
+                    <span>
+                      <small>Jarak tempuh</small>
+                      <strong>
+                        {selectedVariant.specs.rangeQualifier || ""}
+                        {formatNumber(selectedRange)} km
+                      </strong>
+                      {selectedVariant.specs.rangeStandard && (
+                        <small>{selectedVariant.specs.rangeStandard}</small>
+                      )}
+                      {selectedVariant.specs.rangeNote && (
+                        <small>{selectedVariant.specs.rangeNote}</small>
+                      )}
+                    </span>
+                  </div>
+                )}
+                {model.variants.length > 0 && (
+                  <div className="model-summary-badge">
+                    <BadgeCheck size={20} aria-hidden="true" />
+                    <span>
+                      <small>Pilihan varian</small>
+                      <strong>{model.variants.length} varian terdaftar</strong>
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           )}
           {activeTab === "specs" && (
             <div className="detail-tab-content">
               <h2>Spesifikasi per varian</h2>
               <SpecTable variants={model.variants} />
+              <p className="specification-note">
+                {SITE.modelBenefits.specificationNote}
+              </p>
             </div>
           )}
           {activeTab === "gallery" && (
@@ -414,6 +470,43 @@ export default function ModelDetailPage() {
               )}
             </div>
           )}
+          <aside className="model-benefits">
+            <div className="model-benefits-heading">
+              <div className="model-brand-logos">
+                <img
+                  src={asset("base", SITE.brandAssets.bydLogo)}
+                  alt="BYD"
+                  width="100"
+                  height="38"
+                  loading="lazy"
+                />
+                <span aria-hidden="true" />
+                <img
+                  src={asset("base", SITE.brandAssets.aristaLogo)}
+                  alt="Arista"
+                  width="100"
+                  height="38"
+                  loading="lazy"
+                />
+              </div>
+              <p>{SITE.modelBenefits.tagline}</p>
+            </div>
+            <div className="model-benefit-list">
+              {SITE.modelBenefits.items.map((item) => {
+                const Icon = benefitIcons[item.id] || BadgeCheck;
+                return (
+                  <article className="model-benefit-item" key={item.id}>
+                    <Icon size={22} aria-hidden="true" />
+                    <div>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+            <p className="model-benefits-note">{SITE.modelBenefits.note}</p>
+          </aside>
         </section>
       </div>
 

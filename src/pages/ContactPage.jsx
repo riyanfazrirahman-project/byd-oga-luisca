@@ -50,6 +50,7 @@ export default function ContactPage() {
   const [photoFailed, setPhotoFailed] = useState(false);
   const hasPhoto = SITE.seller.photo && !photoFailed;
   const bio = SITE.seller.bio.filter((item) => item && !isPlaceholder(item));
+  const story = bio.slice(1);
   const phoneReady = !isPlaceholder(contact.phone);
   const emailReady = !isPlaceholder(contact.email);
   const validMap = /^https:\/\/(www\.)?google\.com\/maps\/embed/.test(
@@ -62,10 +63,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <Seo
-        title={`Hubungi ${SITE.seller.name}`}
-        description={`Kenali ${SITE.seller.name}, ${SITE.seller.role}, dan hubungi untuk konsultasi BYD.`}
-      />
+      <Seo page="contact" />
       <section className="contact-hero">
         <div className="container contact-hero-layout">
           <div className="contact-portrait">
@@ -127,7 +125,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {bio.length > 0 && (
+      {story.length > 0 && (
         <section className="section contact-story">
           <div className="container story-layout">
             <div>
@@ -135,7 +133,7 @@ export default function ContactPage() {
               <h2>Menemani Anda memilih dengan lebih yakin.</h2>
             </div>
             <div className="story-copy">
-              {bio.map((paragraph) => (
+              {story.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>

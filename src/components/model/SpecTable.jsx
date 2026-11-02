@@ -2,7 +2,14 @@ import { formatNumber } from "@/lib/format";
 
 const SPECS = [
   ["batteryKwh", "Baterai", (value) => `${formatNumber(value)} kWh`],
-  ["rangeKm", "Jarak tempuh", (value) => `${formatNumber(value)} km`],
+  [
+    "rangeKm",
+    "Jarak tempuh",
+    (value, specs) =>
+      `${specs.rangeQualifier || ""}${formatNumber(value)} km${
+        specs.rangeStandard ? ` (${specs.rangeStandard})` : ""
+      }${specs.rangeNote ? ` (${specs.rangeNote})` : ""}`,
+  ],
   ["powerHp", "Tenaga", (value) => `${formatNumber(value)} hp`],
   ["seats", "Kapasitas", (value) => `${formatNumber(value)} kursi`],
   ["drive", "Penggerak", (value) => value],
@@ -35,7 +42,10 @@ export default function SpecTable({ variants = [] }) {
               <th scope="row">{label}</th>
               {variants.map((variant) => (
                 <td key={variant.id}>
-                  {variant.specs?.[key] ? format(variant.specs[key]) : "—"}
+                    {variant.specs?.[key] !== undefined &&
+                    variant.specs?.[key] !== ""
+                      ? format(variant.specs[key], variant.specs)
+                      : "—"}
                 </td>
               ))}
             </tr>

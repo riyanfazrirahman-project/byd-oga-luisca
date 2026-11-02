@@ -7,7 +7,7 @@ import { routePath } from "@/lib/paths";
 export default function NotFoundPage() {
   return (
     <>
-      <Seo title="Halaman tidak ditemukan" description="Halaman yang Anda cari tidak tersedia." />
+      <Seo page="notFound" />
       <section className="not-found">
         <div className="not-found-icon"><SearchX size={34} /></div>
         <span className="eyebrow">404 · Halaman tidak ditemukan</span>

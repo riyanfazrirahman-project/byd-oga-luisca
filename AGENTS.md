@@ -91,9 +91,13 @@ Bila konten belum ada, pakai placeholder berkurung siku seperti `"[Nama Dealer]"
 ```js
 // src/data/site.config.js (ringkas; struktur lengkap ada di file aslinya)
 export const SITE = {
-  meta: { name, tagline, url, lang: "id", disclaimer },
+  meta: {
+    name, tagline, title, description, keywords, socialImage, socialImageAlt,
+    modelImageAltTemplate, pages, url, lang: "id", disclaimer
+  },                                                       // metadata SEO global dan per halaman
   paths: { base, brand, seller, models, icons, docs },     // URL aset; fisik di public/assets/
   brandAssets: { bydLogo, aristaLogo },                    // nama file logo di public/
+  modelBenefits: { tagline, note, specificationNote, items }, // manfaat dan catatan dari materi dealer
   homeFaqs: { title, items: [{ question, answer }] },      // konten FAQ beranda
   routes: { home: "/", models: "/model", model: "/model/:slug", simulation: "/simulasi", contact: "/hubungi" },
   nav: [{ label, route }],                                  // route = kunci di SITE.routes
@@ -122,7 +126,7 @@ Satu `Model`:
 | `promo` | `{ label, note, until }` | tidak | tampil bila ada |
 | `images` | `{ folder, hero, card, gallery[], colors[{ name, hex, image }] }` | ya | nama file relatif ke `public/assets/img/models/<folder>/` |
 | `highlights` | string[] | ya | 3–5 poin |
-| `variants` | `{ id, name, price, specs }[]` | ya | boleh `[]` saat `status: "coming-soon"` dan varian belum dikonfirmasi; `specs`: `batteryKwh`, `rangeKm`, `powerHp`, `seats`, `drive`, ...; tampilkan hanya field yang terisi |
+| `variants` | `{ id, name, price, specs }[]` | ya | boleh `[]` saat `status: "coming-soon"` dan varian belum dikonfirmasi; `specs`: `batteryKwh`, `rangeKm`, `rangeQualifier`, `rangeStandard`, `rangeNote`, `powerHp`, `seats`, `drive`, ...; tampilkan hanya field yang terisi |
 | `brochure` | string | tidak | nama file di `public/assets/docs/` |
 | `seo` | `{ title, description }` | tidak | override meta halaman detail |
 
@@ -202,7 +206,7 @@ export default function ModelCard({ model }) {
 
 **Router** (`App.jsx`): `createBrowserRouter(routes, { basename: import.meta.env.BASE_URL })`. Muat halaman dengan `React.lazy` + `Suspense`.
 
-**Meta halaman:** komponen `Seo` merender `<title>` dan `<meta>` langsung di JSX (didukung React 19), nilainya dari `SITE` atau `model.seo`.
+**Meta halaman:** komponen `Seo` merender title, deskripsi, canonical, Open Graph, Twitter Cards, robots, dan JSON-LD dari `SITE.meta` atau `model.seo`. Isi `SITE.meta.url` dengan domain HTTPS produksi agar canonical dan URL absolut aktif.
 
 ## 8. shadcn/ui dalam mode JavaScript
 
@@ -226,7 +230,7 @@ export default function ModelCard({ model }) {
 
 - **Katalog:** kartu dari `SITE.models`; filter tipe bodi tanpa reload.
 - **Detail model:** varian, harga mulai dari, spesifikasi kunci, galeri, pilihan warna, tombol WhatsApp berisi nama model dan varian.
-- **Simulasi cicilan** (`src/lib/installment.js`): input model, varian, DP (minimal `minDpPercent`), tenor dari `SITE.simulation.tenors`. Selalu tampilkan catatan bahwa angka hanya estimasi dan bukan penawaran resmi. Metode hitung bunga belum diputuskan pemilik; sampai ada keputusan, pakai rumus anuitas standar dan beri komentar `// TODO: konfirmasi metode leasing`.
+- **Simulasi cicilan** (`src/lib/installment.js`): input model, varian, DP (minimal `minDpPercent`), bunga leasing (% per tahun), dan tenor dari `SITE.simulation.tenors`. Bunga dapat berbeda tiap leasing; jangan mengasumsikan 0% bila belum ditentukan. Selalu tampilkan catatan bahwa angka hanya estimasi dan bukan penawaran resmi. Metode hitung bunga belum diputuskan pemilik; sampai ada keputusan, pakai rumus anuitas standar dan beri komentar `// TODO: konfirmasi metode leasing`.
 - **Analitik:** panggil pembungkus di `src/lib/analytics.js` untuk event `click_whatsapp` (label halaman + model), `view_model`, `submit_simulation`, `click_phone`, `click_social`.
 - **Hosting SPA:** refresh di `/model/seal` harus bekerja. Pastikan `public/_redirects` ada dan jangan mengubah rute tanpa memperbarui sitemap.
 

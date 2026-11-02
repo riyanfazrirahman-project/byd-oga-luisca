@@ -2812,6 +2812,12 @@ img {
   font-size: 11px;
 }
 
+.dp-validation {
+  margin: -4px 0 0;
+  color: var(--destructive);
+  font-size: 13px;
+}
+
 .tenor-step {
   margin: 0;
 }

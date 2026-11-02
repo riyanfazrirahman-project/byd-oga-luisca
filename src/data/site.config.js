@@ -124,7 +124,7 @@ export const SITE = {
     services: [],
     testimonials: [],
     contact: {
-      whatsapp: "6282254014001",
+      whatsapp: "628135419221",
       phone: "[Nomor telepon]",
       email: "[Alamat email]",
       instagram: "[Akun Instagram]",
@@ -141,8 +141,8 @@ export const SITE = {
   simulation: {
     tenors: [12, 24, 36, 48, 60],
     minDpPercent: 20,
-    defaultInterestPercent: 0,
-    interestNote: "estimasi rate 7% /tahun, tergantung leasing",
+    defaultInterestPercent: 7,
+    interestNote: "Estimasi rate 7% /Tahun, tergantung leasing.",
   },
   models: [
     {

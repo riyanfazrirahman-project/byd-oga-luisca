@@ -19,7 +19,7 @@ export default function SimulationPage() {
   );
   const [variantId, setVariantId] = useState("");
   const variant = sortedVariants.find((item) => item.id === variantId) ?? sortedVariants[0];
-  const [dpAmount, setDpAmount] = useState("");
+  const [dpAmount, setDpAmount] = useState(null);
   const [tenor, setTenor] = useState(SITE.simulation.tenors.includes(36) ? 36 : SITE.simulation.tenors[0]);
   const [interestPercent, setInterestPercent] = useState(
     SITE.simulation.defaultInterestPercent > 0
@@ -29,31 +29,29 @@ export default function SimulationPage() {
   const price = variant?.price || model?.priceFrom || 0;
   const minDp = Math.round((price * SITE.simulation.minDpPercent) / 100);
   const maxDp = Math.round(price * 0.7);
-  const currentDp = Math.min(maxDp, Math.max(minDp, Number(dpAmount) || minDp));
+  const enteredDp = dpAmount === null ? minDp : Number(dpAmount);
+  const hasValidDp = Number.isFinite(enteredDp) && enteredDp >= minDp && enteredDp <= maxDp;
+  const currentDp = hasValidDp ? enteredDp : minDp;
   const dpPercent = price ? Math.min(70, Math.max(SITE.simulation.minDpPercent, (currentDp / price) * 100)) : SITE.simulation.minDpPercent;
   const annualInterestPercent = interestPercent === "" ? null : Number(interestPercent);
   const hasValidInterest = Number.isFinite(annualInterestPercent) && annualInterestPercent >= 0;
-  const estimate = price && hasValidInterest
+  const estimate = price && hasValidInterest && hasValidDp
     ? calculateInstallment(price, dpPercent, tenor, annualInterestPercent)
     : null;
   const interestSummary = !hasValidInterest
     ? "bunga leasing belum ditentukan"
     : `bunga ${interestPercent}% per tahun`;
-  const simulationMessage = `Sebagai gambaran, saya ingin membahas simulasi ${model?.name ?? ""} ${variant?.name ?? ""}, DP ${formatRupiah(currentDp)}, ${interestSummary}, tenor ${tenor} bulan.`;
+  const dpSummary = hasValidDp ? formatRupiah(currentDp) : "belum ditentukan";
+  const simulationMessage = `Sebagai gambaran, saya ingin membahas simulasi ${model?.name ?? ""} ${variant?.name ?? ""}, DP ${dpSummary}, ${interestSummary}, tenor ${tenor} bulan.`;
 
   function changeModel(slug) {
     setModelSlug(slug);
     setVariantId("");
-    setDpAmount("");
+    setDpAmount(null);
   }
 
   function changeDpAmount(value) {
-    const parsed = Number(value);
-    if (value === "") {
-      setDpAmount("");
-      return;
-    }
-    if (Number.isFinite(parsed)) setDpAmount(String(Math.min(maxDp, Math.max(minDp, parsed))));
+    setDpAmount(value);
   }
 
   return (
@@ -87,7 +85,7 @@ export default function SimulationPage() {
                   <div className="simulation-step dp-step">
                     <label htmlFor="dp-amount"><span>03</span> Uang muka (DP)</label>
                     <div className="dp-input-row">
-                      <div className="currency-input"><span>Rp</span><input id="dp-amount" type="number" inputMode="numeric" min={minDp} max={maxDp} step="1000000" value={dpAmount || minDp} onChange={(event) => changeDpAmount(event.target.value)} /></div>
+                      <div className="currency-input"><span>Rp</span><input id="dp-amount" type="number" inputMode="numeric" min={minDp} max={maxDp} step="1000000" value={dpAmount ?? minDp} aria-invalid={!hasValidDp} aria-describedby="dp-range-hint" onChange={(event) => changeDpAmount(event.target.value)} /></div>
                       <span className="dp-percent">{formatNumber(Math.round(dpPercent))}%</span>
                     </div>
                     <input
@@ -100,7 +98,8 @@ export default function SimulationPage() {
                       aria-label="Persentase uang muka"
                       onChange={(event) => setDpAmount(String(Math.round((price * Number(event.target.value)) / 100)))}
                     />
-                    <div className="range-labels"><span>Minimal {SITE.simulation.minDpPercent}%</span><span>Maksimal 70%</span></div>
+                    <div className="range-labels" id="dp-range-hint"><span>Minimal {SITE.simulation.minDpPercent}% ({formatRupiah(minDp)})</span><span>Maksimal 70%</span></div>
+                    {!hasValidDp && <p className="dp-validation" role="alert">Masukkan DP antara {formatRupiah(minDp)} dan {formatRupiah(maxDp)}.</p>}
                   </div>
                 )}
                 <div className="simulation-step">
@@ -131,7 +130,7 @@ export default function SimulationPage() {
               </form>
               <aside className="simulation-result" aria-live="polite">
                 <div className="result-topline"><span><Calculator size={17} /> Estimasi Anda</span><span className="estimate-label">Perkiraan</span></div>
-                <div className="monthly-estimate"><span>Perkiraan cicilan</span><strong>{estimate ? formatRupiah(estimate.monthlyPayment) : hasValidInterest ? "Pilih varian" : "Masukkan bunga"}</strong><small>per bulan · {tenor} bulan</small></div>
+                <div className="monthly-estimate"><span>Perkiraan cicilan</span><strong>{estimate ? formatRupiah(estimate.monthlyPayment) : !hasValidDp ? "Periksa DP" : hasValidInterest ? "Pilih varian" : "Masukkan bunga"}</strong><small>per bulan · {tenor} bulan</small></div>
                 <div className="result-breakdown">
                   <div><span>Harga kendaraan</span><strong>{formatRupiah(price)}</strong></div>
                   <div><span>Uang muka</span><strong>{formatRupiah(estimate?.downPayment ?? 0)}</strong></div>

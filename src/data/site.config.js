@@ -142,6 +142,7 @@ export const SITE = {
     tenors: [12, 24, 36, 48, 60],
     minDpPercent: 20,
     defaultInterestPercent: 0,
+    interestNote: "estimasi rate 7% /tahun, tergantung leasing",
   },
   models: [
     {

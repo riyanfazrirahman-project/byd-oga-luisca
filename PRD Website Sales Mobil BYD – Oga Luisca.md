@@ -227,7 +227,7 @@ export const SITE = {
     whatsappTemplate: "Halo Kak Oga, saya tertarik dengan {model} {variant}. Boleh minta info dan penawaran?"
   },
 
-  simulation: { tenors: [12, 24, 36, 48, 60], minDpPercent: 20, defaultInterestPercent: 0 },
+  simulation: { tenors: [12, 24, 36, 48, 60], minDpPercent: 20, defaultInterestPercent: 0, interestNote: "estimasi rate 7% /tahun, tergantung leasing" },
 
   models: [ /* objek model sesuai skema bagian 5 */ ]
 };

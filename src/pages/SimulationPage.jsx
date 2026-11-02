@@ -105,6 +105,7 @@ export default function SimulationPage() {
                 )}
                 <div className="simulation-step">
                   <label htmlFor="interest-percent"><span>04</span> Bunga leasing (% per tahun)</label>
+                  <p className="interest-note">({SITE.simulation.interestNote})</p>
                   <input
                     className="interest-rate-input"
                     id="interest-percent"

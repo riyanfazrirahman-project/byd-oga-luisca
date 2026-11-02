@@ -2748,6 +2748,12 @@ img {
   color: var(--foreground);
 }
 
+.interest-note {
+  margin: -5px 0 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+
 .dp-input-row {
   display: flex;
   align-items: center;

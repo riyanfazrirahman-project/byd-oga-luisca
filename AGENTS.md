@@ -229,8 +229,8 @@ export default function ModelCard({ model }) {
 ## 10. Fitur dan aturan bisnis
 
 - **Katalog:** kartu dari `SITE.models`; filter tipe bodi tanpa reload.
-- **Detail model:** varian, harga mulai dari, spesifikasi kunci, galeri, pilihan warna, tombol WhatsApp berisi nama model dan varian.
-- **Simulasi cicilan** (`src/lib/installment.js`): input model, varian, DP (minimal `minDpPercent`), bunga leasing (% per tahun), dan tenor dari `SITE.simulation.tenors`. Tampilkan catatan bunga dari `SITE.simulation.interestNote`. Bunga dapat berbeda tiap leasing; jangan mengasumsikan 0% bila belum ditentukan. Selalu tampilkan catatan bahwa angka hanya estimasi dan bukan penawaran resmi. Metode hitung bunga belum diputuskan pemilik; sampai ada keputusan, pakai rumus anuitas standar dan beri komentar `// TODO: konfirmasi metode leasing`.
+- **Detail model:** varian, harga mulai dari, spesifikasi kunci, galeri, pilihan warna, tombol WhatsApp berisi nama model dan varian, serta tautan simulasi yang membawa model dan varian terpilih.
+- **Simulasi cicilan** (`src/lib/installment.js`): input model, varian, DP (minimal `minDpPercent`), bunga leasing (% per tahun), dan tenor dari `SITE.simulation.tenors`. Baca parameter model dan varian dari URL agar tautan detail model membuka simulasi dengan pilihan yang sesuai. Tampilkan catatan bunga dari `SITE.simulation.interestNote`. Bunga dapat berbeda tiap leasing; jangan mengasumsikan 0% bila belum ditentukan. Selalu tampilkan catatan bahwa angka hanya estimasi dan bukan penawaran resmi. Metode hitung bunga belum diputuskan pemilik; sampai ada keputusan, pakai rumus anuitas standar dan beri komentar `// TODO: konfirmasi metode leasing`.
 - **Analitik:** panggil pembungkus di `src/lib/analytics.js` untuk event `click_whatsapp` (label halaman + model), `view_model`, `submit_simulation`, `click_phone`, `click_social`.
 - **Hosting SPA:** refresh di `/model/seal` harus bekerja. Pastikan `public/_redirects` ada dan jangan mengubah rute tanpa memperbarui sitemap.
 

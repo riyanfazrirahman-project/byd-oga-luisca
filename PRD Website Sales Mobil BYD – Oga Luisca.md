@@ -52,8 +52,8 @@ Menu utama: **Beranda · Model · Simulasi · Hubungi**. Menu Hubungi berfungsi 
 | --- | --- | --- | --- |
 | Beranda | `/` | `HomePage.jsx` | Memperkenalkan Oga, menampilkan model unggulan, mengarahkan ke WhatsApp |
 | Model | `/model` | `ModelsPage.jsx` | Katalog semua model dengan filter tipe (SUV, sedan, hatchback, MPV) |
-| Detail Model | `/model/:slug` | `ModelDetailPage.jsx` | Spesifikasi, varian, galeri, harga, tombol tanya Oga |
-| Simulasi | `/simulasi` | `SimulationPage.jsx` | Hitung estimasi cicilan dari model, DP, dan tenor |
+| Detail Model | `/model/:slug` | `ModelDetailPage.jsx` | Spesifikasi, varian, galeri, harga, tombol tanya Oga, dan tautan simulasi sesuai varian terpilih |
+| Simulasi | `/simulasi` | `SimulationPage.jsx` | Hitung estimasi cicilan dari model, DP, dan tenor; parameter model/varian dapat diprefill dari tautan detail |
 | Hubungi | `/hubungi` | `ContactPage.jsx` | Profil Oga Luisca, kontak, deskripsi, testimoni, lokasi |
 | Tidak ditemukan | `*` | `NotFoundPage.jsx` | Pesan jelas dan tautan kembali ke katalog |
 
@@ -69,7 +69,7 @@ Menu utama: **Beranda · Model · Simulasi · Hubungi**. Menu Hubungi berfungsi 
 | FR-06 | Detail model menampilkan varian, harga mulai dari, spesifikasi kunci, galeri, pilihan warna | P0 |
 | FR-07 | Tombol WhatsApp membawa pesan otomatis berisi nama model dan varian yang sedang dilihat | P0 |
 | FR-08 | Halaman Hubungi menampilkan foto, bio, angka pencapaian, layanan, testimoni, kontak, jam kerja, peta | P0 |
-| FR-09 | Simulasi cicilan: pilih model dan varian, isi DP dan tenor, tampil estimasi per bulan beserta catatan bahwa angka hanya estimasi | P1 |
+| FR-09 | Simulasi cicilan: pilih model dan varian (termasuk prefill dari tautan detail), isi DP dan tenor, tampil estimasi per bulan beserta catatan bahwa angka hanya estimasi | P1 |
 | FR-10 | Tombol WhatsApp mengambang di ponsel pada semua halaman | P0 |
 | FR-11 | Label promo per model (misal periode dan keterangan) tampil bila diisi di data | P1 |
 | FR-12 | Disclaimer di footer: situs dikelola Oga Luisca dan bukan situs resmi BYD | P0 |

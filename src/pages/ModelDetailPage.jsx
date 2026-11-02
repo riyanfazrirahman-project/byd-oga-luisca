@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   CarFront,
   Check,
+  Calculator,
   ChevronLeft,
   ChevronRight,
   MapPin,
@@ -109,6 +110,10 @@ export default function ModelDetailPage() {
     warranty: ShieldCheck,
     comfort: Leaf,
   };
+  const simulationSearch = new URLSearchParams({
+    model: model.slug,
+    variant: selectedVariant?.id ?? "",
+  });
 
   function selectColor(image) {
     const index = images.indexOf(image);
@@ -321,6 +326,18 @@ export default function ModelDetailPage() {
                   ? "Tanya info"
                   : "Minta penawaran"}
               </WhatsAppButton>
+              {model.status === "available" && selectedVariant && (
+                <Link
+                  className="button button-outline"
+                  to={{
+                    pathname: routePath("simulation"),
+                    search: `?${simulationSearch.toString()}`,
+                  }}
+                >
+                  <Calculator size={17} />
+                  Simulasi cicilan
+                </Link>
+              )}
               {model.brochure && (
                 <a
                   className="button button-outline"

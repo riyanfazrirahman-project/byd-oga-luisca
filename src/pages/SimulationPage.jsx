@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { ArrowRight, Calculator, Info } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import Seo from "@/components/seo/Seo";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import { SITE } from "@/data/site.config";
@@ -11,13 +11,24 @@ import { routePath } from "@/lib/paths";
 
 export default function SimulationPage() {
   const availableModels = SITE.models.filter((model) => model.status === "available");
-  const [modelSlug, setModelSlug] = useState(availableModels[0]?.slug ?? "");
+  const [searchParams] = useSearchParams();
+  const requestedModel = availableModels.find(
+    (item) => item.slug === searchParams.get("model"),
+  );
+  const [modelSlug, setModelSlug] = useState(
+    requestedModel?.slug ?? availableModels[0]?.slug ?? "",
+  );
   const model = availableModels.find((item) => item.slug === modelSlug) ?? availableModels[0];
   const sortedVariants = useMemo(
     () => [...(model?.variants ?? [])].sort((a, b) => a.price - b.price),
     [model],
   );
-  const [variantId, setVariantId] = useState("");
+  const requestedVariantId = searchParams.get("variant");
+  const [variantId, setVariantId] = useState(() =>
+    sortedVariants.some((item) => item.id === requestedVariantId)
+      ? requestedVariantId
+      : "",
+  );
   const variant = sortedVariants.find((item) => item.id === variantId) ?? sortedVariants[0];
   const [dpAmount, setDpAmount] = useState(null);
   const [tenor, setTenor] = useState(SITE.simulation.tenors.includes(36) ? 36 : SITE.simulation.tenors[0]);
